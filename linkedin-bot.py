@@ -22,7 +22,7 @@ def getPeopleLinks(page):
     return links
 
 def getJobLinks(page):
-    links=[]
+    links = []
     for link in page.find_all('a'):
         url = link.get('href')
         if url:
@@ -41,8 +41,8 @@ def ViewBot(browser):
     while True:
         #Sleep to make sure everything loads.
         #add random to make us look human.
-        time.sleep(random.uniform(3.5, 6.9))
-        page = BeautifulSoup(browser.page_source, "html.parser")#added "html.parser to fix error"
+        time.sleep(random.uniform(5, 10))
+        page = BeautifulSoup(browser.page_source, 'html.parser')#added "html.parser to fix error"
         people = getPeopleLinks(page)
         if people:
             for person in people:
@@ -50,7 +50,7 @@ def ViewBot(browser):
                 if ID not in visited:
                     pList.append(person)
                     visited[ID] = 1
-
+                    print ID
         if pList: #if there's people to look at, then do
             person = pList.pop()
             browser.get(person)
@@ -65,11 +65,10 @@ def ViewBot(browser):
                     job = 'https://www.linkedin.com'+job
                 browser.get(job)
             else:
-                print "I'm Lost, Exiting..."
+                print "I'm Lost, Exiting..." #switched to "" because it looks cleaner in this context
                 break
             #Output make option for this
-            print "[+] "+browser.title+"Visited! \n("\
-                +str(count)+"/"+str(len(pList))+") VisistedQueue"
+        print '[+] ' + browser.title + 'Visited! \n(' + str(count) + '/' + str(len(pList))+ ') VisistedQueue'
 
 
 def Main():
@@ -90,7 +89,7 @@ def Main():
         os.system('clear')
         print '[+] Success! Logged In, Bot Starting!'
         ViewBot(browser)
-        browser.close()
+
 
 if __name__ == '__main__':
     Main()
