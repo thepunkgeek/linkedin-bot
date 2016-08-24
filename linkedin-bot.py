@@ -41,7 +41,7 @@ def ViewBot(browser):
     while True:
         #Sleep to make sure everything loads.
         #add random to make us look human.
-        time.sleep(random.uniform(4, 15))#increased latency to appear more human
+        time.sleep(random.uniform(10, 30))#increased latency to appear more human
         page = BeautifulSoup(browser.page_source, 'html.parser')#added "html.parser to fix error"
         people = getPeopleLinks(page)
         if people:
@@ -62,7 +62,7 @@ def ViewBot(browser):
                 root = 'http://www.linkedin.com'
                 roots = 'http:www.linkedin.com'
                 if root not in job or roots not in job:
-                    job = 'https://www.linkedin.com'+job
+                    job = 'https://www.linkedin.com' + job
                 browser.get(job)
             else:
                 print "I'm Lost, Exiting..." #switched to "" because it looks cleaner in this context
@@ -70,8 +70,7 @@ def ViewBot(browser):
             #Output make option for this
         print '[+] ' + browser.title + ' was visited! (' + str(count) + '/' + str(len(pList))+ ') Visisted Queue'
         os.system('say "Boom"') #for OSX, and strictly for the lolz
-        sys.stdout.write('\a')
-        sys.stdout.flush()
+
 
 
 def Main():
@@ -91,9 +90,8 @@ def Main():
 
         os.system('clear')
         print '[+] Success! Logged In, Bot Is Starting!'
-        sys.stdout.write('\a')
-        sys.stdout.flush()
         os.system('say "logged in, bot is starting!"')#for OSX, and strictly for the lolz
+        time.sleep(10)
         ViewBot(browser)
 
 
