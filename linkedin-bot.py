@@ -41,7 +41,7 @@ def ViewBot(browser):
     while True:
         #Sleep to make sure everything loads.
         #add random to make us look human.
-        time.sleep(random.uniform(5, 10))
+        time.sleep(random.uniform(4, 15))#increased latency to appear more human
         page = BeautifulSoup(browser.page_source, 'html.parser')#added "html.parser to fix error"
         people = getPeopleLinks(page)
         if people:
@@ -50,7 +50,7 @@ def ViewBot(browser):
                 if ID not in visited:
                     pList.append(person)
                     visited[ID] = 1
-                    print ID
+                    #print ID #uncomment to show all the raw IDs as they are scraped
         if pList: #if there's people to look at, then do
             person = pList.pop()
             browser.get(person)
@@ -68,7 +68,10 @@ def ViewBot(browser):
                 print "I'm Lost, Exiting..." #switched to "" because it looks cleaner in this context
                 break
             #Output make option for this
-        print '[+] ' + browser.title + 'Visited! \n(' + str(count) + '/' + str(len(pList))+ ') VisistedQueue'
+        print '[+] ' + browser.title + ' was visited! (' + str(count) + '/' + str(len(pList))+ ') Visisted Queue'
+        os.system('say "Boom"') #for OSX, and strictly for the lolz
+        sys.stdout.write('\a')
+        sys.stdout.flush()
 
 
 def Main():
@@ -87,7 +90,10 @@ def Main():
         passElement.submit()
 
         os.system('clear')
-        print '[+] Success! Logged In, Bot Starting!'
+        print '[+] Success! Logged In, Bot Is Starting!'
+        sys.stdout.write('\a')
+        sys.stdout.flush()
+        os.system('say "logged in, bot is starting!"')#for OSX, and strictly for the lolz
         ViewBot(browser)
 
 
