@@ -51,10 +51,12 @@ def ViewBot(browser):
                     pList.append(person)
                     visited[ID] = 1
                     #print ID #uncomment to show all the raw IDs as they are scraped
-        if pList: #if there's people to look at, then do
+        while pList: #if there's people to look at, then do
             person = pList.pop()
             browser.get(person)
+            print(person)
             count += 1
+            print '[+] ' + browser.title[:10] + ' was visited! (' + str(count) + '/' + str(len(pList))+ ') Visisted Queue'
         else: #otherwise find people via the job pages
             jobs = getJobLinks(page)
             if jobs:
@@ -64,8 +66,11 @@ def ViewBot(browser):
                 if root not in job or roots not in job:
                     job = 'https://www.linkedin.com' + job
                 browser.get(job)
+                print(job)
             else:
-                print "I'm Lost, Exiting..." #switched to "" because it looks cleaner in this context
+                print("I'm Lost, Exiting...") #switched to "" because it looks cleaner in this context
+                print("LinkedIn may have caught on, and might be requiring proof that we're not a robot ;D")
+                print("Try loggin in a few times manually, then trying again...")
                 break
             #Output make option for this
         print '[+] ' + browser.title + ' was visited! (' + str(count) + '/' + str(len(pList))+ ') Visisted Queue'
