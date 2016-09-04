@@ -17,6 +17,16 @@ from pyvirtualdisplay import Display #To run Firefox in a virtual display(headle
 
 display = Display(visible=0, size=(800,600))
 
+def getPeopleLinks(page):
+	links = []
+	for link in page.find_all('a'):
+		url = link.get('href')
+		if url:
+			if 'profile/view?id=' in url:
+				if 'profile_pic' or 'identity-name' not in url:
+					links.append(url)
+	return links
+
 def getJobLinks(page):
 	links = []
 	for link in page.find_all('a'):
