@@ -1,11 +1,11 @@
-#####################################################################
-#	A python LinkedIn bot that views users for you.					#
-#																	#
-#	Based on the code by YouTubube user: DrapsTV					#
+#########################################################################
+#	A python LinkedIn bot that views users for you.			#
+#									#
+#	Based on the code by YouTubube user: DrapsTV			#
 #	From this video:https://www.youtube.com/watch?v=twRQNSFXiYs 	#
-#																	#
-#	Written using Tabs with a width of 4...							#
-#####################################################################
+#									#
+#	Written using Tabs with a width of 4...				#
+#########################################################################
 
 
 import argparse, os, time
@@ -22,8 +22,9 @@ def getPeopleLinks(page):
 	for link in page.find_all('a'):
 		url = link.get('href')
 		if url:
-			if 'profile/view?id=' in url and not 'profile_pic' or 'identity-name':
-				links.append(url)
+			if 'profile/view?id=' in url:
+				if 'profile_pic' or 'identity-name' not in url:
+					links.append(url)
 	return links
 
 def getJobLinks(page):
@@ -60,6 +61,7 @@ def ViewBot(browser):
 			#print(person)
 			count += 1
 			print('[+] ' + browser.title[:-10] + ' was visited! (' + str(count) + '/' + str(len(pList))+ ') Visisted Queue')
+			#Then we get more profiles from the profile we just visited
 			page = BeautifulSoup(browser.page_source, 'html.parser')#added 'html.parser' to fix error
 			people = getPeopleLinks(page)
 			if people:
@@ -68,6 +70,7 @@ def ViewBot(browser):
 					if ID not in visited:
 						pList.append(person)
 						visited[ID] = 1
+						#print ID
 			time.sleep(random.uniform(3, 10))#To appear human...
 		else: #otherwise find people via the job pages
 			jobs = getJobLinks(page)
