@@ -22,7 +22,7 @@ def getPeopleLinks(page):
 	for link in page.find_all('a'):
 		url = link.get('href')
 		if url:
-			if 'profile/view?id=' in url:
+			if 'profile/view?id=' in url and not 'profile_pic' or 'identity-name':
 				links.append(url)
 	return links
 
@@ -31,7 +31,7 @@ def getJobLinks(page):
 	for link in page.find_all('a'):
 		url = link.get('href')
 		if url:
-				if '/jobs' in url and not 'profile_pic' or 'identity-name':
+				if '/jobs' in url:
 					links.append(url)
 	return links
 
@@ -60,6 +60,14 @@ def ViewBot(browser):
 			#print(person)
 			count += 1
 			print('[+] ' + browser.title[:-10] + ' was visited! (' + str(count) + '/' + str(len(pList))+ ') Visisted Queue')
+			page = BeautifulSoup(browser.page_source, 'html.parser')#added 'html.parser' to fix error
+			people = getPeopleLinks(page)
+			if people:
+				for person in people:
+					ID = getID(person)
+					if ID not in visited:
+						pList.append(person)
+						visited[ID] = 1
 			time.sleep(random.uniform(3, 10))#To appear human...
 		else: #otherwise find people via the job pages
 			jobs = getJobLinks(page)
@@ -70,7 +78,7 @@ def ViewBot(browser):
 			if root not in job or roots not in job:
 				job = 'https://www.linkedin.com' + job
 				browser.get(job)
-				print(job)
+				#print(job)
 				time.sleep(random.uniform(3, 10))
 			else:
 				print("I'm Lost, Exiting...")
