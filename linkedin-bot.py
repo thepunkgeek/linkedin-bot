@@ -36,15 +36,6 @@ def getJobLinks(page):
 				links.append(url)
 	return links
 
-def getJobLinks(page):
-	links = []
-	for link in page.find_all('a'):
-		url = link.get('href')
-		if url:
-				if '/jobs' in url:
-					links.append(url)
-	return links
-
 def getID(url):
 	pUrl = urlparse.urlparse(url)
 	return urlparse.parse_qs(pUrl.query)['id'][0]	
