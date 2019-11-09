@@ -14,6 +14,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from pyvirtualdisplay import Display #To run Firefox in a virtual display(headless)
+import sqlite3
 
 display = Display(visible=0, size=(800,600))
 
@@ -22,6 +23,7 @@ def getPeopleLinks(page):
 	for link in page.find_all('a'):
 		url = link.get('href')
 		if url:
+		# 'linkedin.com/in/' until '?'
 			if 'profile/view?id=' in url:
 				if 'profile_pic' or 'identity-name' not in url:
 					links.append(url)
@@ -35,6 +37,9 @@ def getJobLinks(page):
 			if '/jobs' in url:
 				links.append(url)
 	return links
+def queryDB(command, string): 
+    #fill this out
+    return 
 
 def getID(url):
 	pUrl = urlparse.urlparse(url)
